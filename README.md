@@ -190,3 +190,28 @@ $ kubectl describe configmaps
 
 ### Secrets
 
+- imperative
+
+$ kubectl create secret generic \
+    <secret-name> --from-literal=<key>=<value>
+
+$ kubectl create secret generic \
+    <secret-name> --from-file=<path-to-file>
+
+- declerative
+
+$ kubectl create -f 
+
+- Encode Secrets and Decode
+
+$ echo -n 'passwrd' | base64
+
+$ echo -n 'bXafmjagh2D=' | base64 --decode
+
+- List Secrets 
+
+$ kubectl get secrets
+
+$ kubectl get secret <secret-name> -o yaml
+
+$ kubectl describe secret
