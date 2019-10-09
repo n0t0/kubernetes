@@ -2,7 +2,6 @@
 
 30000 - 32767
 
-
 ### Events
 
 $ kubectl get events
@@ -22,7 +21,6 @@ minikube start --vm-drive=<driver_name>
 ### Use docker native commands in kubernetes
 
 eval $(minikube docker-env)
-
 
 ### Nodes
 
@@ -215,3 +213,9 @@ $ kubectl get secrets
 $ kubectl get secret <secret-name> -o yaml
 
 $ kubectl describe secret
+
+### Multi-container PODs
+
+- sidecar
+- adapter
+- ambassador
