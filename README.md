@@ -48,7 +48,6 @@ $ minikube stop
 
 $ minikube delete
 
-
 kubeadm join 172.31.68.187:6443 --token zbcrvz.m32clg7b3hs1tiub \
     --discovery-token-ca-cert-hash sha256:6b9d6870e24f69794d9d969e9b1f72849712b431deeda4b2e4195a1f4188cd17
 
