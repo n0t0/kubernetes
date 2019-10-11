@@ -75,6 +75,8 @@ $ kubectl get pods
 
 $ kubectl get pods -o wide
 
+$ kubectl get pods -n kube-system -o wide
+
 $ kubectl describe pods
 
 $ kubectl create -f pod-definition.yml
@@ -217,4 +219,9 @@ $ kubectl describe secret
 
 - sidecar
 - adapter
-- ambassador
+- ambassador  
+
+
+### Kubetest - Tests
+
+- e2e: ~1000
