@@ -89,6 +89,10 @@ $ kubectl scale --replicas=6 -f replicaset-definition.yml
 
 $ kubectl scale --replicas=6 replicaset myapp-replicaset
 
+### Exec
+
+$ kubectl exec <Pod_ID> cat /log/app.log'
+
 ### Gen
 
 $ kubectl get all
@@ -225,3 +229,135 @@ $ kubectl describe secret
 ### Kubetest - Tests
 
 - e2e: ~1000
+- Full e2e = ~1000 Test / 12 Hours
+
+- conformance: ~160
+- Conformance = ~164 Test / 1.5 Hours
+
+- sonobuoy
+
+### Troubleshooting
+
+### Storage
+
+- volumes within pod-definition
+- persistent volumes (PVs)
+
+### Cluster Maintenance
+
+
+$ kube-controller-manager --pod-eviction-timeout=5m0s
+
+$ kubectl drain node-1
+$ kubectl cordon node-2
+$ kubectl uncordon node-1
+
+### Kubernetes Releases 
+
+- v1.16 -- current
+- v1.15 -- supported
+- v1.14 -- supported
+- v1.13 -- un-supported
+
+
+### Cluster Upgrade Process
+
+- upgrade one minor version at a time
+- v1.13 to v1.14 -- correct
+- v1.13 to 1.16  -- not-recommended
+
+$ kubectl upgrade plan
+$ kubectl upgrade apply
+
+- when upgrading, master is upgrading first and apiserver, scheduler, and controller are temporary down
+- nodes - all at the same time - strategy 1
+- nodes - one at the time - strategy 2
+- nodes - add new versioned nodes - strategy 3
+
+- steps to update to v1.13
+
+1. $ apt-get upgrade -y kubeadm=1.12.0-00
+2. $ kubeadm upgrade apply v1.12.0
+3. $ apt-get upgrade -y kubelet=1.12.0-00
+4. $ systemctl restart kubelet
+5. $ kubeadm upgrade node config --kubelet-version v1.12.0
+6. $ systemctl restart kubelet
+
+### Backup and Restore
+
+- resource
+* VELERE 3rd party
+
+https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
+
+https://www.youtube.com/watch?v=qRPNuT080Hk
+
+## Security
+
+### Secure Hosts
+
+- root disabled
+- password based authentication disalbed 
+- ssh key based auth
+
+### Authentication
+
+- local users,pass,userID
+
+### TLS Certs  
+
+- openssl 
+
+$ kubectl get csr
+$ kubectl certificate approve jane
+
+### Kubeconfig
+
+- contexts: 
+
+$ kubectl config view
+
+### API Groups
+
+- /version
+- /api (got verbs)
+
+- kube proxy is not kubectl proxy
+
+### RBAC
+
+$ kubectl get roles
+
+$ kubectl get rolebinding
+
+$ kubectl auth can-i create deployment
+$ kubectl auth can-i delete nodes
+$ kubectl auth can-i create deploymentse --as dev-user
+
+### Roles
+
+$ kubectl api-resources --namespaced=true/false
+
+### Security Images
+
+$ kubectl create secret docker-registry regcred \
+    --docker-server=
+    --docker-username=
+    --docker-password=
+    --docker-email=
+
+### Security Context
+
+- runAsUser 1000
+
+### Network Policy
+
+- allow traffic only from specific pod
+
+- flannel does not support network policies
+
+## Network
+
+### Linux Networking
+
+$ ip addr add 192.168.1.11/24 dev eth0
