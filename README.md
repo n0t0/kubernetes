@@ -361,3 +361,72 @@ $ kubectl create secret docker-registry regcred \
 ### Linux Networking
 
 $ ip addr add 192.168.1.11/24 dev eth0
+$ ip route add 192.168.2.0/24 via 192.168.1.1
+$ ip route add default via 192.168.2.1
+
+$ cat /proc/sys/net/ipv4/ip_forward=1
+
+### DNS
+
+$ nslookup www.google.com
+$ dig
+
+### Network Namespaces
+
+$ ip netns add <namespace>
+
+$ ip netns --> list namespaces
+$ ip netns exec <namespace> ip link
+$ ip -n <namespace> link
+
+$ arp
+$ route
+
+$ iplink add <veth-red> type veth peer name <veth-blue>
+$ iplink set <veth-red> netns <red>
+$ iplink set <veth-blue> netns <blue>
+
+### Docker Networking
+
+### Container Networking Interface (CNI)
+
+- rkt 
+- mesos
+- kubernetes - creates container under --> docker run --network=none
+
+### Cluster Nodes
+
+### Pod Networking
+
+### CNI in Kubernetes
+
+### CNI weave
+
+### IAM (IP address management)
+
+### Service Networking
+
+### Ingress
+
+### Kubectl Advanced
+
+$ kubectl get nodes -o wide 
+$ kubectl get pods -o json
+$ kubectl get pods -o=jsonpath='{   .items[0].spec.containers[0].image }'
+$ kubectl get nodes -o=jsonpath='{.items[*].metadatada.name}'
+
+
+### Mocl
+
+$ kubectl run --generator=run-pod/v1 elephant --image=redis --dry-run -o yaml > elephant
+
+$ kubectl run nginx-deploy --image=nginx:1.16 --replicas=1 --record 
+$ kubectl get deployments .
+$ kubectl rollout history deployment nginx-deploy
+$ kubectl set image deployment/nginx-deploy nginx-deploy=nginx:1.17 --record
+
+
+$ kubectl api-version | grep certif
+$ kubectl create role developer --resource-pods --verbs-create,list,get,update,create --namespace=development
+$kubectl describe role developer -n developmnet
+
