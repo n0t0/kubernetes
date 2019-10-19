@@ -51,6 +51,90 @@ $ minikube delete
 kubeadm join 172.31.68.187:6443 --token zbcrvz.m32clg7b3hs1tiub \
     --discovery-token-ca-cert-hash sha256:6b9d6870e24f69794d9d969e9b1f72849712b431deeda4b2e4195a1f4188cd17
 
+#######################
+### Pod
+
+- a Pod describes an application running on Kubernetes
+- a Pod can contain one or more tigthly coupled containers, that make up an app
+
+### Create a Pod
+
+$ kubectl create -f <pod-definition.yaml>
+
+$ kubecl get pod --> info all running pods
+$ kubectl describe pod <pod> --> describe
+$ kubectl expose pod <pod> --port=444 --name=gaylord --> expose the port of a pod (creates a new service)
+$ kubectl port-forward <pod> 8080 --> port forward the exposed pod port to your local machine
+$ kubectl attach <podname> -i --> attach to the pod
+$ kubectl exec <pod> --<command> --> execute a command on the pod
+$ kubectl exec <pod> -- ls /app
+$ kubectl exec <pod> -- touch /app/test
+$ kubectl exec <pod> -- ls /app
+
+
+$ kubectl exec <pod> -c <container> -- <command> --> if there are multi containers
+$ kubectl label pods <pod> mylabel=awesome --> add a new label to a pod
+$ kubectl run -i --tty busybox --image=busybox --restart=Never -- sh run a shell in a pod - very useful for debugging
+
+### Scaling Pods
+
+- stateless
+- statefull 
+
+$ kubectl delete pod helloworld-controller-mw85
+
+- ReplicationController is recreating a new Pod
+
+$ kubectl scale --replicas=4 -f helloworld-replica-controller.yaml 
+$ kubectl get rc
+$ kubectl scale --replicas=1 rc/<replicationController>
+
+### Deployments
+
+- Replica Set is next-gen ReplicationController
+- Deployment declaration in Kube allows you to do app deployments and updates
+- When using Deployment, you define the state of your app (kube will match desired state)
+
+- Create a Deployment
+- Update a Deployment
+- Do rolling update (zero downtime)
+- Roll Back to a prev version
+- Pause/Resume a deployment (roll-out to only a certain percentage)
+
+$ kubectl rollout status deployment/helloworld-deployment
+$ kubectl set image deployment/helloworld-deployment imageName=image:v2
+$ kubectl rollout history <>
+$ kubectl rollout undo <> --> rollout to prev version
+$ kubectl rollout undo <> --to-revision=n --> rollout to any prev version
+
+### Services
+
+- when using Deployments, when updaing the image version, pods are terminated and new pods take the place of older pods 
+- that's why Pods hould never be accesssed directly, but always throught a Service
+- a Service is a logical bridge between the `mortal` pods and other services or end-users
+
+$ kubectl describe src <service>
+$ kubectl get src
+
+### Labels
+
+- once lables are attached to an object, you can use filters to narrow down result ; this is called Label Selectors 
+- using Label Selectors you can use matching expressions to match labels
+
+- node labels, once nodes are labeled you can use label selectors to let pods only run on specific nodes
+- tag the node, add a nodeSelector to your pod configuration
+
+$ kubectl label nodes node1 hardware=high-spec
+$ kubectl label nodes node2 hardware=low-spec
+$ kubectl get nodes --show-labels
+
+
+### Healthchecks
+
+- run a command in a container periodically
+- periodic checks on a URL (HTTP)
+
+###################
 ### Run a Pod
 
 $ kubectl run nginx --image=nginx
@@ -428,5 +512,11 @@ $ kubectl set image deployment/nginx-deploy nginx-deploy=nginx:1.17 --record
 
 $ kubectl api-version | grep certif
 $ kubectl create role developer --resource-pods --verbs-create,list,get,update,create --namespace=development
-$kubectl describe role developer -n developmnet
+$ kubectl describe role developer -n developmnet
+
+$ kubectl create reolebinding developer-role-binding --role=developer --user=john --namespace=developer
+
+$ kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80 --target-port=80 --type=ClusterIP
+
+$ kubectl get svc
 
