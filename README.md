@@ -132,7 +132,72 @@ $ kubectl get nodes --show-labels
 ### Healthchecks
 
 - run a command in a container periodically
+- livenessProbes
 - periodic checks on a URL (HTTP)
+
+### readinessProbes
+
+- livenessProbes indicate whether the container is running --> if the check fails, the container will be restarted
+- readinessProbes indicate whether the container is ready to serve requests --> if the check fails, the container will not be restarted, but the Pod's IP address will be removed from the Service, so it'll not serve any requests anymore
+
+### Pod State
+
+- Pending
+- Succeeded
+- Failed
+- Unknown
+
+### Pod Lifecycle 
+
+- initContainers:
+- licecycle: postStart: preStop:
+
+$ watch n1 kubectl get pods
+
+### Secrets
+
+- external vault services
+- use secrets as environment variables
+- use secrets as a file in a pod
+- use an external image to pull secrets (from private image registry)
+
+
+$ echo -n "root" > ./username.txt
+$ echo -n "password" > ./password.txt
+$ kubectl create secret generic db-user-pass --from-file=./username.txt --from-file=./password.txt 
+
+$ kubectl create secret generic ssl-certificate --from-file=ssh-privatekey=~/.ssh/id_rsa --ssl-cert-=ssl-cert=mysslcert.crt
+
+- you can create a pod that exposes the secrets as environment variables
+- provite secrets in a secrets file
+
+### WebUI
+
+$ kubectl config view
+
+### Service Discovery (advanced) with DNS
+
+- /etc/kubernetes/addons - on master node 
+- to make DNS work, a pod will need a Service definition
+
+$ host app1-service.default.svc.cluster.local
+
+### ConfigMap
+
+- expose as environment variables
+
+### Ingress 
+
+- inbound connection to the cluster
+
+### External DNS
+
+### Volumes
+
+- NFS
+- Cephfs
+
+
 
 ###################
 ### Run a Pod
