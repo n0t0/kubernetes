@@ -196,6 +196,8 @@ $ host app1-service.default.svc.cluster.local
 
 - NFS
 - Cephfs
+- auto provisioned volumes
+
 
 
 
