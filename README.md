@@ -189,6 +189,8 @@ $ host app1-service.default.svc.cluster.local
 ### Ingress 
 
 - inbound connection to the cluster
+- IngressController
+
 
 ### External DNS
 
