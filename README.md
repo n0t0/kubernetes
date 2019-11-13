@@ -250,6 +250,9 @@ $ kubectl exec <Pod_ID> cat /log/app.log'
 
 $ kubectl get all
 
+
+### s 
+
 ### Rollout
 
 $ kubectl rollout status deployment/<myapp>
