@@ -250,8 +250,10 @@ $ kubectl exec <Pod_ID> cat /log/app.log'
 
 $ kubectl get all
 
+### Daemon Sets
 
-### s 
+- ensure that everys ingle pod is running on every single node
+
 
 ### Rollout
 
