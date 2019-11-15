@@ -255,6 +255,18 @@ $ kubectl get all
 - ensure that everys ingle pod is running on every single node
 
 
+### Affinity and anti-affinity
+
+- nodeSelector:
+    hardware: high-spect 
+
+- node and pod affnity
+
+
+### Pre-populated labels
+
+kubectl label node <nodeID> env=dev
+
 ### Rollout
 
 $ kubectl rollout status deployment/<myapp>
@@ -314,6 +326,9 @@ $ kubectl get pods --selector app=App1 --> select labeled pods
 $ kubectl get all --selector env=prod --> get all (e.g ReplicaSets and other objects)
 $ kubectl get pods --selector env=prod,bu=finance,tier=frontend --> multiple labels
 
+### Affinity
+
+
 ### Taints - Node
 
 $ kubectl taint nodes node-name key=value:<taint-effect>
@@ -324,8 +339,9 @@ kubectl taint nodes master node-role.kubernetes.io/master:NoSchedule- --> remove
 
 $ kubectl label nodes <node> <label-key>=<label-value>
 
+### Operators***
 
-### Affinity
+- packaging, deploying, and managing an Application
 
 ### DaemonSets 
 
