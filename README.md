@@ -532,5 +532,6 @@ $ kubectl config get contexts
 <<<<<<< HEAD
 - test2
 =======
+- test3
 >>>>>>> db7f2438a2597cad61fc7e1b2c342fca477e8828
 >>>>>>> a9297b727c622f3df962744fe18837e24ed743d7
