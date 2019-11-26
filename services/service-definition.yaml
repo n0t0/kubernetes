@@ -7,9 +7,12 @@ metadata:
   name: webapp-service
 spec:
   ports:
+    # Which port on the node is the service available through?
     - port: 8080
       protocol: TCP
+    # Inside the cluster, what port does the service expose?
       nodePort: 30082
+    # Which port do pods selected by this service expose?
       targetPort: 8080
   selector:
     app: webapp
