@@ -1,6 +1,3 @@
-#######################
-#######################
-
 ### Gen
 
 $ kubectl get all
@@ -29,6 +26,127 @@ $ kubectl exec <pod> -c <container> -- <command> --> if there are multi containe
 $ kubectl label pods <pod> mylabel=awesome --> add a new label to a pod
 $ kubectl run -i --tty busybox --image=busybox --restart=Never -- sh run a shell in a pod - very useful for debugging
 
+### Scaling Pods
+
+- stateless
+- statefull 
+
+$ kubectl delete pod helloworld-controller-mw85
+
+- ReplicationController is recreating a new Pod
+
+$ kubectl scale --replicas=4 -f helloworld-replica-controller.yaml 
+$ kubectl get rc
+$ kubectl scale --replicas=1 rc/<replicationController>
+
+### Deployments
+
+- Replica Set is next-gen ReplicationController
+- Deployment declaration in Kube allows you to do app deployments and updates
+- When using Deployment, you define the state of your app (kube will match desired state)
+
+- Create a Deployment
+- Update a Deployment
+- Do rolling update (zero downtime)
+- Roll Back to a prev version
+- Pause/Resume a deployment (roll-out to only a certain percentage)
+
+$ kubectl rollout status deployment/helloworld-deployment
+$ kubectl set image deployment/helloworld-deployment imageName=image:v2
+$ kubectl rollout history <>
+$ kubectl rollout undo <> --> rollout to prev version
+$ kubectl rollout undo <> --to-revision=n --> rollout to any prev version
+
+
+
+### Labels
+
+- once lables are attached to an object, you can use filters to narrow down result ; this is called Label Selectors 
+- using Label Selectors you can use matching expressions to match labels
+
+- node labels, once nodes are labeled you can use label selectors to let pods only run on specific nodes
+- tag the node, add a nodeSelector to your pod configuration
+
+$ kubectl label nodes node1 hardware=high-spec
+$ kubectl label nodes node2 hardware=low-spec
+$ kubectl get nodes --show-labels
+
+
+### Healthchecks
+
+- run a command in a container periodically
+- livenessProbes
+- periodic checks on a URL (HTTP)
+
+### readinessProbes
+
+- livenessProbes indicate whether the container is running --> if the check fails, the container will be restarted
+- readinessProbes indicate whether the container is ready to serve requests --> if the check fails, the container will not be restarted, but the Pod's IP address will be removed from the Service, so it'll not serve any requests anymore
+
+### Pod State
+
+- Pending
+- Succeeded
+- Failed
+- Unknown
+
+### Pod Lifecycle 
+
+- initContainers:
+- licecycle: postStart: preStop:
+
+$ watch n1 kubectl get pods
+
+### Secrets
+
+- external vault services
+- use secrets as environment variables
+- use secrets as a file in a pod
+- use an external image to pull secrets (from private image registry)
+
+
+$ echo -n "root" > ./username.txt
+$ echo -n "password" > ./password.txt
+$ kubectl create secret generic db-user-pass --from-file=./username.txt --from-file=./password.txt 
+
+$ kubectl create secret generic ssl-certificate --from-file=ssh-privatekey=~/.ssh/id_rsa --ssl-cert-=ssl-cert=mysslcert.crt
+
+- you can create a pod that exposes the secrets as environment variables
+- provite secrets in a secrets file
+
+### WebUI
+
+$ kubectl config view
+
+### Service Discovery (advanced) with DNS
+
+- /etc/kubernetes/addons - on master node 
+- to make DNS work, a pod will need a Service definition
+
+$ host app1-service.default.svc.cluster.local
+
+### ConfigMap
+
+- expose as environment variables
+
+### Ingress 
+
+- inbound connection to the cluster
+- IngressController
+
+
+### External DNS
+
+### Volumes
+
+- NFS
+- Cephfs
+- auto provisioned volumes
+
+
+
+
+###################
 ### Run a Pod
 
 $ kubectl run nginx --image=nginx
@@ -73,6 +191,24 @@ $ kubectl exec <Pod_ID> cat /log/app.log'
 - statefull 
 
 $ kubectl delete pod helloworld-controller-mw85
+### Daemon Sets
+
+- ensure that everys ingle pod is running on every single node
+
+
+### Affinity and anti-affinity
+
+- nodeSelector:
+    hardware: high-spect 
+
+- node and pod affnity
+
+
+### Pre-populated labels
+
+kubectl label node <nodeID> env=dev
+
+### Rollout
 
 - ReplicationController is recreating a new Pod
 
@@ -150,6 +286,33 @@ $ kubectl set image deployment/helloworld-deployment imageName=image:v2
 $ kubectl rollout history <>
 $ kubectl rollout undo <> --> rollout to prev version
 $ kubectl rollout undo <> --to-revision=n --> rollout to any prev version
+### Namespaces
+
+$ kubectl get namespace 
+
+$ kubectl get pods -n <namespace>
+
+#### List Pods from a Namepsace
+
+$ kubectl get pods --namespace=<NS>
+
+
+### Labels and Selectors
+
+$ kubectl get pods --selector app=App1 --> select labeled pods
+$ kubectl get all --selector env=prod --> get all (e.g ReplicaSets and other objects)
+$ kubectl get pods --selector env=prod,bu=finance,tier=frontend --> multiple labels
+
+### Affinity
+
+
+### Taints - Node
+
+$ kubectl taint nodes node-name key=value:<taint-effect>
+$ kubectl taint nodes Node1 key=blue:NoSchedule
+kubectl taint nodes master node-role.kubernetes.io/master:NoSchedule- --> remove taints
+
+### Label Nodes
 
 
 $ kubectl rollout status deployment/<myapp>
@@ -157,6 +320,9 @@ $ kubectl rollout history deployment/<myapp>
 $ kubectl rollout undo deployment/<myapp>
 
 $ kubectl create -f pod-definition.yml --record
+### Operators***
+
+- packaging, deploying, and managing an Application
 
 ### DaemonSets 
 
