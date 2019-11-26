@@ -519,4 +519,14 @@ $ kubectl config get contexts
 
 ### Networking
 
+<<<<<<< HEAD
 >>>>>>> 874eab21d5f88fdb690ef3a2cf4fb6c91e7e723e
+=======
+- CNI (Calico, Weave)
+- an overlay network (flannel)
+
+### Node Maintenance
+
+- Node Controller --> assigns IP space, node list, health of the node
+- test
+>>>>>>> db7f2438a2597cad61fc7e1b2c342fca477e8828
