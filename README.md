@@ -496,4 +496,27 @@ $ kubectl describe configmaps
 - conformance: ~160
 - Conformance = ~164 Test / 1.5 Hours
 
+<<<<<<< HEAD
 - sonobuoy
+=======
+
+---
+
+### RBAC - role based access control
+
+
+- webhook --> sends autorhozation request to an exnternal REST interface
+
+- role
+- roleBinding
+- clusterRole
+- clusterRoleBinding
+
+$ kubectl config view
+$ kubectl config set-context --cluster=*.* --user edward
+$ kubectl config use-context edward
+$ kubectl config get contexts 
+
+### Networking
+
+>>>>>>> 874eab21d5f88fdb690ef3a2cf4fb6c91e7e723e
