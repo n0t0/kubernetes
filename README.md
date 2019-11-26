@@ -610,3 +610,23 @@ $ kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80 --ta
 
 $ kubectl get svc
 
+
+---
+
+### RBAC - role based access control
+
+
+- webhook --> sends autorhozation request to an exnternal REST interface
+
+- role
+- roleBinding
+- clusterRole
+- clusterRoleBinding
+
+$ kubectl config view
+$ kubectl config set-context --cluster=*.* --user edward
+$ kubectl config use-context edward
+$ kubectl config get contexts 
+
+### Networking
+
