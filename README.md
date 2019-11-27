@@ -26,8 +26,6 @@ $ kubectl exec <pod> -c <container> -- <command> --> if there are multi containe
 $ kubectl label pods <pod> mylabel=awesome --> add a new label to a pod
 $ kubectl run -i --tty busybox --image=busybox --restart=Never -- sh run a shell in a pod - very useful for debugging
 
-$ kubectl pod-forward 8000:80
-
 ### Scaling Pods
 
 - stateless
@@ -236,8 +234,6 @@ $ kubectl expose pod redis --port=6379 --name redis-service
 
 $ kubectl describe src <service>
 $ kubectl get src
-
-$ kubectl pod-forward 8000:80
 
 ### Volumes/Storage
 
@@ -529,84 +525,3 @@ $ kubectl config get contexts
 ### Node Maintenance
 
 - Node Controller --> assigns IP space, node list, health of the node
-
-### TLS on AWS ELB
-
- - annotations
-
-### Admission Controllers
-
-- intercept requests setn to kubernetes API server
-
-$ kube-apiserver --enable-admission-plugins=NamespaceLifecycle,...
-
-- NamespaceLifecycle
-- LimitRanger
-- ServiceAccount
-- DefaultStorageClass
-- DefaultTolerationSeconds
-- NodeRestriction
-- MutatingAdmissionWebhook
-- ValidatingAdmissionWebhook
-
-### Pod Security Policies
-
-- deny using privileged mode in pods
-- control what volumes can be mounted
-- containers can't run as root but within <UID/GID> range
-
-$ kubectl edit cluster
-$ kubectl get podsecuritypolicy
-
-### etcd
-
-- used by kubernetes as data backend
-- k/v store
-
-### Raft consensus algorithm
-
-https://raft.github.io
-
-### Packaging and Deploying
-
-### Helm
-
-- package manager for kubernetes
-- a chart is a collection of files that describe a set of kubernetes resources
-- charts use templates that are typicaly developed by a package maintainer
-
-```
-$ helm init 
-$ helm reset
-$ helm install
-$ heml search --> search for a chart
-$ helm list
-$ helm upgrade 
-$ helm rollback
-```
-
-### Helm Charts
-
-- helm allows for upgrades and rollbacks
-- helm charts are version controlled
-
-```
-$ helm create *mychart* --> creates a directory /mychart
-```
-
-### Helm Chart repository using AWS S3
-
-- create a .sh script
-
-### Building and Deploying a Helm Chart with Jenkins
-
-- aws roles to read from s3 and deploy to cluster
-- serviceAcccount
-- build pipeline script
-- deploy pipeline sciprt
-
-### Skaffold
-
-- command line tool for continuous development of applications running on kubernetes
-- skaffold will build, push, and deploying to kubernetes cluster
-- very pluggable - builds with Kaniko and Bazel or custom builds
