@@ -525,7 +525,6 @@ $ kubectl config get contexts
 ### Node Maintenance
 
 - Node Controller --> assigns IP space, node list, health of the node
-<<<<<<< HEAD
 
 ### TLS on AWS ELB
 
