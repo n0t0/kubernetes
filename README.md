@@ -26,8 +26,6 @@ $ kubectl exec <pod> -c <container> -- <command> --> if there are multi containe
 $ kubectl label pods <pod> mylabel=awesome --> add a new label to a pod
 $ kubectl run -i --tty busybox --image=busybox --restart=Never -- sh run a shell in a pod - very useful for debugging
 
-$ kubectl pod-forward 8000:80
-
 ### Scaling Pods
 
 - stateless
@@ -236,8 +234,6 @@ $ kubectl expose pod redis --port=6379 --name redis-service
 
 $ kubectl describe src <service>
 $ kubectl get src
-
-$ kubectl pod-forward 8000:80
 
 ### Volumes/Storage
 
@@ -529,6 +525,7 @@ $ kubectl config get contexts
 ### Node Maintenance
 
 - Node Controller --> assigns IP space, node list, health of the node
+<<<<<<< HEAD
 
 ### TLS on AWS ELB
 
@@ -622,4 +619,5 @@ $ helm create *mychart* --> creates a directory /mychart
     - AWS Kinesis
 - Fission
 - OpenWhisk
+
 
