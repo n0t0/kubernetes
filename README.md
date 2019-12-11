@@ -426,3 +426,5 @@ kubectl taint nodes master node-role.kubernetes.io/master:NoSchedule- --> remove
 ### Operators***
 
 - packaging, deploying, and managing an Application
+
+### Cert-manager
