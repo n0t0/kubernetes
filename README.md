@@ -166,6 +166,7 @@ $ kubectl create deployment webapp --image=kodekloud/webapp-color
 $ kubectl describe deployment
 $ kubectl edit deployment <deployment>
 $ kubectl scale deployment/webapp --replicas=3
+$ kubectl autoscale deployment/my-nginx --min=1 --max=3
 $ kubectl expose deployment webapp --type=NodePort --port=8080 --name=webapp-service --dry-run -o yaml > webapp-service.yaml (edit .yaml file NodePort)
 $ kubectl run blue --image=nginx --replicas=6 --> create a deployment with 6 replicas
 
@@ -428,3 +429,8 @@ kubectl taint nodes master node-role.kubernetes.io/master:NoSchedule- --> remove
 - packaging, deploying, and managing an Application
 
 ### Cert-manager
+
+helm install --name my-ingress stable/nginx-ingress \
+             --set controller.kind=DaemonSet \
+             --set controller.service.type=NodePort \
+             --set controller.hostNetwork=true
