@@ -26,6 +26,7 @@ $ kubectl run nginx --image=nginx
 $ kubectl run redis --image=redis123 --generator=run-pod/v1
 $ kubectl run --generator=run-pod/v1 nginx-pod --image=nginx:alpine
 $ kubectl run --generator=run-pod/v1 redis --image=redis:alpine -l <tier=db> --> with a label
+$ kubectl run --generator=run-pod/v1 tmp-shell --rm -it --image bretfisher/netshoot -- bash
 $ kubectl run --restart=Never --image=busybox static-busybox --dry-run -o yaml --command -- sleep 1000 > /etc/kubernetes/manifests/static-busybox.yaml --> static
 
 ### List Pods from a Namepsace
@@ -42,7 +43,7 @@ $ kubectl get pod webapp -o yaml > my-new-pod.yaml --> extract a Pod definition
 
 ### Describe Pod
 
-
+$ kubectl get pods -w --> watch command
 $ kubectl get pods
 $ kubectl get pods -o wide
 $ kubectl get pods -n kube-system -o wide
@@ -71,7 +72,7 @@ $ kubectl scale --replicas=4 -f helloworld-replica-controller.yaml
 $ kubectl get rc
 $ kubectl scale --replicas=1 rc/<replicationController>
 
-### Rollout (ReplicationController)
+### ReplicationController
 
 - ReplicationController is recreating a new Pod
 
@@ -81,6 +82,14 @@ $ kubectl scale --replicas=1 rc/<replicationController>
 $ kubectl replace -f replicaset-definition.yml
 $ kubectl scale --replicas=6 -f replicaset-definition.yml
 $ kubectl scale --replicas=6 replicaset myapp-replicaset
+
+### ReplicaSets
+
+- better than ReplicationController
+- lower than Deployment
+
+$ kubectl scale deploy/my-apache --replicas 2
+$ kubectl scale deployment my-apache --replicas 2 --> same as above
 
 ### Pod State
 
@@ -102,15 +111,70 @@ $ watch n1 kubectl get pods
 - adapter
 - ambassador
 
+### Logs
+
+$ kubectl logs deployment/my-apache --follow --tail 1 --> follow logs, just last line
+$ kubectl logs -l run=my-apache --> showing labeled objects logs
+
+### Deployments
+
+- Replica Set is next-gen ReplicationController
+- Deployment declaration in Kube allows you to do app deployments and updates
+- When using Deployment, you define the state of your app (kube will match desired state)
+
+- Create a Deployment
+- Update a Deployment
+- Do rolling update (zero downtime)
+- Roll Back to a prev version
+- Pause/Resume a deployment (roll-out to only a certain percentage)
+
+### Create a deployment and scale to 3 replicas
+
+$ kubectl create deployment webapp --image=kodekloud/webapp-color
+$ kubectl create deployment httpenv --image=bretfisher/httpenv
+$ kubectl describe deployment
+$ kubectl edit deployment <deployment>
+$ kubectl scale deployment/webapp --replicas=3
+$ kubectl autoscale deployment/my-nginx --min=1 --max=3
+$ kubectl expose deployment webapp --type=NodePort --port=8080 --name=webapp-service --dry-run -o yaml > webapp-service.yaml (edit .yaml file NodePort)
+$ kubectl run blue --image=nginx --replicas=6 --> create a deployment with 6 replicas
+
+### Rollout Deployments
+
+$ kubectl rollout status deployment/myapp-deployment
+$ kubectl set image deployment/myapp-deployment \
+    nginx=nginx:1.9.1
+
+$ kubectl rollout history deployment/myapp-deployment
+$ kubectl rollout undo deployment/myapp-deployment
+
+$ kubectl rollout status deployment/helloworld-deployment
+$ kubectl set image deployment/helloworld-deployment imageName=image:v2
+$ kubectl rollout history <>
+$ kubectl rollout undo <> --> rollout to prev version
+$ kubectl rollout undo <> --to-revision=n --> rollout to any prev version
+
 ### Services
 
 - when using Deployments, when updaing the image version, pods are terminated and new pods take the place of older pods 
 - that's why Pods hould never be accesssed directly, but always throught a Service
 - a Service is a logical bridge between the `mortal` pods and other services or end-users
 
+### Service Type
+
+- ClusterIP (default) --> reachable inside the cluster only
+- NodePort --> outside the cluster, through IPs on the nodes themselves
+- LoadBalancer (cloud)
+- ExternalName --> adds CNAME DNS record to CoreDNS only
+
+- Ingress
+
 ### Create a Service to expose <APPLICATION>
 
 $ kubectl expose pod redis --port=6379 --name redis-service
+$ kubectl expose deployment/httpenv --port 8888
+$ kubectl expose deployment/httpenv --port 8888 --name httpenv-np --type NodePort
+$ kubectl expose deployment/httpenv --port 8888 --name httpenv-lb --type LoadBalancer
 
 $ kubectl describe src <service>
 $ kubectl get src
@@ -147,43 +211,6 @@ web-service --> Hostname
 - NFS
 - Cephfs
 - auto provisioned volumes
-
-### Deployments
-
-- Replica Set is next-gen ReplicationController
-- Deployment declaration in Kube allows you to do app deployments and updates
-- When using Deployment, you define the state of your app (kube will match desired state)
-
-- Create a Deployment
-- Update a Deployment
-- Do rolling update (zero downtime)
-- Roll Back to a prev version
-- Pause/Resume a deployment (roll-out to only a certain percentage)
-
-### Create a deployment and scale to 3 replicas
-
-$ kubectl create deployment webapp --image=kodekloud/webapp-color
-$ kubectl describe deployment
-$ kubectl edit deployment <deployment>
-$ kubectl scale deployment/webapp --replicas=3
-$ kubectl autoscale deployment/my-nginx --min=1 --max=3
-$ kubectl expose deployment webapp --type=NodePort --port=8080 --name=webapp-service --dry-run -o yaml > webapp-service.yaml (edit .yaml file NodePort)
-$ kubectl run blue --image=nginx --replicas=6 --> create a deployment with 6 replicas
-
-### Rollout Deployments
-
-$ kubectl rollout status deployment/myapp-deployment
-$ kubectl set image deployment/myapp-deployment \
-    nginx=nginx:1.9.1
-
-$ kubectl rollout history deployment/myapp-deployment
-$ kubectl rollout undo deployment/myapp-deployment
-
-$ kubectl rollout status deployment/helloworld-deployment
-$ kubectl set image deployment/helloworld-deployment imageName=image:v2
-$ kubectl rollout history <>
-$ kubectl rollout undo <> --> rollout to prev version
-$ kubectl rollout undo <> --to-revision=n --> rollout to any prev version
 
 ### Labels
 
@@ -434,3 +461,4 @@ helm install --name my-ingress stable/nginx-ingress \
              --set controller.kind=DaemonSet \
              --set controller.service.type=NodePort \
              --set controller.hostNetwork=true
+
