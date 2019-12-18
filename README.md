@@ -1,6 +1,7 @@
 ### Gen
 
 $ kubectl get all
+$ kubectl api-resources
 
 ### Pod
 
@@ -132,6 +133,7 @@ $ kubectl logs -l run=my-apache --> showing labeled objects logs
 
 $ kubectl create deployment webapp --image=kodekloud/webapp-color
 $ kubectl create deployment httpenv --image=bretfisher/httpenv
+$ kubectl create deployment sample --image naginx --dry-run -o yaml --> dry run
 $ kubectl describe deployment
 $ kubectl edit deployment <deployment>
 $ kubectl scale deployment/webapp --replicas=3
@@ -188,6 +190,7 @@ $ host app1-service.default.svc.cluster.local
 
 ### Kube DNS
 
+<hostname>.<namespace>.svc.cluster.local
 web-service.apps.svc.cluster.local
 
 10.107.37.188 --> IP
