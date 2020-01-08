@@ -2,6 +2,15 @@
 
 $ kubectl get all
 $ kubectl api-resources
+$ kubectl api-versions
+
+### YAML spec
+
+$ kubectl explain services --recursive
+$ kubectl explain services.spec
+$ kubectl explain services.spec.type
+$ kubectl explain deployment.spec.template.spec.volumes.nfs.server
+- kubernetes.io/docs/reference/#api-reference
 
 ### Pod
 
