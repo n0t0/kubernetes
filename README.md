@@ -188,6 +188,7 @@ $ kubectl expose deployment/httpenv --port 8888 --name httpenv-np --type NodePor
 $ kubectl expose deployment/httpenv --port 8888 --name httpenv-lb --type LoadBalancer
 
 $ kubectl describe src <service>
+$ kubectl describe svc dashboard-metrics-scraper -n kube-system
 $ kubectl get src
 
 ### Service Discovery (advanced) with DNS
