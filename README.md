@@ -24,7 +24,7 @@ $ kubectl create -f <pod-definition.yaml>
 $ kubecl get pod --> info all running pods
 $ kubectl describe pod <pod> --> describe
 $ kubectl expose pod <pod> --port=444 --name=gaylord --> expose the port of a pod (creates a new service)
-$ kubectl port-forward <pod> 8080 --> port forward the exposed pod port to your local machine
+$ kubectl port-forward <pod> 8080:<podport> --> port forward the exposed pod port to your local machine
 $ kubectl attach <podname> -i --> attach to the pod
 
 $ kubectl label pods <pod> mylabel=awesome --> add a new label to a pod
@@ -55,6 +55,7 @@ $ kubectl get pod webapp -o yaml > my-new-pod.yaml --> extract a Pod definition
 
 $ kubectl get pods -w --> watch command
 $ kubectl get pods
+$ kubectl get pods --show-labels
 $ kubectl get pods -o wide
 $ kubectl get pods -n kube-system -o wide
 $ kubectl describe pods
@@ -101,12 +102,14 @@ $ kubectl scale --replicas=6 replicaset myapp-replicaset
 $ kubectl scale deploy/my-apache --replicas 2
 $ kubectl scale deployment my-apache --replicas 2 --> same as above
 
+$ kubectl get rs --> list replica sets
+
 ### Pod State
 
 - Pending
 - Succeeded
 - Failed
-- Unknown
+- Unknown 
 
 ### Pod Lifecycle 
 
@@ -150,11 +153,15 @@ $ kubectl autoscale deployment/my-nginx --min=1 --max=3
 $ kubectl expose deployment webapp --type=NodePort --port=8080 --name=webapp-service --dry-run -o yaml > webapp-service.yaml (edit .yaml file NodePort)
 $ kubectl run blue --image=nginx --replicas=6 --> create a deployment with 6 replicas
 
+$ kubectl get deployments 
+$ kubectl get rs --> because deployments use replica sets
+
 ### Rollout Deployments
 
 $ kubectl rollout status deployment/myapp-deployment
 $ kubectl set image deployment/myapp-deployment \
     nginx=nginx:1.9.1
+$ kubectl rollout status deployment/myapp-deployment --> check status after new image is deployed
 
 $ kubectl rollout history deployment/myapp-deployment
 $ kubectl rollout undo deployment/myapp-deployment
@@ -183,6 +190,7 @@ $ kubectl rollout undo <> --to-revision=n --> rollout to any prev version
 ### Create a Service to expose <APPLICATION>
 
 $ kubectl expose pod redis --port=6379 --name redis-service
+$ kubectl expose pod redis --port=6379 --type=NodePort
 $ kubectl expose deployment/httpenv --port 8888
 $ kubectl expose deployment/httpenv --port 8888 --name httpenv-np --type NodePort
 $ kubectl expose deployment/httpenv --port 8888 --name httpenv-lb --type LoadBalancer
