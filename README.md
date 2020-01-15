@@ -69,6 +69,8 @@ $ kubectl exec <pod> -- ls /app
 $ kubectl exec <pod> -- touch /app/test
 $ kubectl exec <pod> -- ls /app
 $ kubectl exec <pod> -c <container> -- <command> --> if there are multi containers
+$ kubectl exec -ti <pod> bash
+$ kubectl exec <pod> -i -t /bin/bash
 
 ### Scaling Pods
 
@@ -137,7 +139,7 @@ $ kubectl get pod <pod> -o yaml
 ### Pod Lifecycle 
 
 - initContainers:
-- licecycle: postStart: preStop:
+- licecycle: postStart: :l/r-probes: :preStop
 
 $ watch n1 kubectl get pods
 
@@ -303,10 +305,11 @@ $ kubectl label node <nodeID> env=dev
 - use secrets as a file in a pod
 - use an external image to pull secrets (from private image registry)
 
-
+```
 $ echo -n "root" > ./username.txt
 $ echo -n "password" > ./password.txt
 $ kubectl create secret generic db-user-pass --from-file=./username.txt --from-file=./password.txt 
+```
 
 $ kubectl create secret generic ssl-certificate --from-file=ssh-privatekey=~/.ssh/id_rsa --ssl-cert-=ssl-cert=mysslcert.crt
 
