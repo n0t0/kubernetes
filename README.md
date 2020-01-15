@@ -106,10 +106,33 @@ $ kubectl get rs --> list replica sets
 
 ### Pod State
 
+# Pod Status
+
+$ kubectl get pods
+
+- Running
 - Pending
 - Succeeded
 - Failed
 - Unknown 
+
+# Pod Condition
+
+$ kubectl describe <pod>
+
+- PodScheduled
+- Ready
+- Initiliazed
+- Unschedulable
+- ContainersReady
+
+# Container Statuses
+
+$ kubectl get pod <pod> -o yaml
+
+- Running
+- Terminating
+- Waiting
 
 ### Pod Lifecycle 
 
@@ -255,18 +278,18 @@ $ kubectl get pods --selector env=prod,bu=finance,tier=frontend --> multiple lab
 
 $ kubectl label node <nodeID> env=dev
 
-### Healthchecks
-
-- run a command in a container periodically
-- livenessProbes
-- periodic checks on a URL (HTTP)
-
 ### Affinity and anti-affinity
 
 - nodeSelector:
     hardware: high-spect 
 
 - node and pod affnity
+
+### Healthchecks
+
+- run a command in a container periodically
+- livenessProbes
+- periodic checks on a URL (HTTP)
 
 ### readinessProbes
 
