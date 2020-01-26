@@ -10,6 +10,7 @@ $ kubectl explain services --recursive
 $ kubectl explain services.spec
 $ kubectl explain services.spec.type
 $ kubectl explain deployment.spec.template.spec.volumes.nfs.server
+
 - kubernetes.io/docs/reference/#api-reference
 
 ### Pod
@@ -276,16 +277,32 @@ $ kubectl get pods --selector app=App1 --> select labeled pods
 $ kubectl get all --selector env=prod --> get all (e.g ReplicaSets and other objects)
 $ kubectl get pods --selector env=prod,bu=finance,tier=frontend --> multiple labels
 
-### Pre-populated labels
+### Pre-populated Labels
 
 $ kubectl label node <nodeID> env=dev
 
-### Affinity and anti-affinity
+### Affinity and Anti-Affinity
+
+- requiredDuringSchedilingIgnoredDuringExecution --> hard requirenment
+- preferredDuringSchedulingIgnoredDuringExecution --> sof requirenment
 
 - nodeSelector:
-    hardware: high-spect 
+    hardware: high-spect
 
 - node and pod affnity
+
+- measured in `weight` 
+
+### Interpod Affinity and Anti-Affinity
+
+- good for co-located pods
+- e.g. redis pods running on the same node as app1 pod
+
+- topology domain
+- topologyKey
+
+- (take some computing power in +100 nodes cluster)
+
 
 ### Healthchecks
 
@@ -498,6 +515,9 @@ $ kubectl taint nodes node-name key=value:<taint-effect>
 $ kubectl taint nodes Node1 key=blue:NoSchedule
 kubectl taint nodes master node-role.kubernetes.io/master:NoSchedule- --> remove taints
 
+$ kubectl get nodes
+$ kubectl get <masterNode> -o yaml --> /taint
+
 ### Operators***
 
 - packaging, deploying, and managing an Application
@@ -508,4 +528,3 @@ helm install --name my-ingress stable/nginx-ingress \
              --set controller.kind=DaemonSet \
              --set controller.service.type=NodePort \
              --set controller.hostNetwork=true
-
