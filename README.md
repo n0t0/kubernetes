@@ -290,6 +290,7 @@ $ kubectl label node <nodeID> env=dev
     hardware: high-spect
 
 - node and pod affnity
+- weight measured 
 
 - measured in `weight` 
 
@@ -406,6 +407,9 @@ $ kubectl config get contexts
 - IngressController
 
 ### External DNS
+
+- On Cloud, use 1 LoadBalancer that captures all the external traffic and
+- sends it to a ingress controller
 
 ### Networking
 
