@@ -13,11 +13,6 @@ $ kubectl explain deployment.spec.template.spec.volumes.nfs.server
 
 - kubernetes.io/docs/reference/#api-reference
 
-### Pod
-
-- a Pod describes an application running on Kubernetes
-- a Pod can contain one or more tigthly coupled containers, that make up an app
-
 ### Create a Pod
 
 $ kubectl create -f <pod-definition.yaml>
@@ -64,7 +59,7 @@ $ kubectl create -f pod-definition.yml
 
 ### Exec
 
-$ kubectl exec <Pod_ID> cat /log/app.log'
+$ kubectl exec <pod> cat /log/app.log'
 $ kubectl exec <pod> --<command> --> execute a command on the pod
 $ kubectl exec <pod> -- ls /app
 $ kubectl exec <pod> -- touch /app/test
@@ -107,67 +102,12 @@ $ kubectl scale deployment my-apache --replicas 2 --> same as above
 
 $ kubectl get rs --> list replica sets
 
-### Pod State
-
-# Pod Status
-
-$ kubectl get pods
-
-- Running
-- Pending
-- Succeeded
-- Failed
-- Unknown 
-
-# Pod Condition
-
-$ kubectl describe <pod>
-
-- PodScheduled
-- Ready
-- Initiliazed
-- Unschedulable
-- ContainersReady
-
-# Container Statuses
-
-$ kubectl get pod <pod> -o yaml
-
-- Running
-- Terminating
-- Waiting
-
-### Pod Lifecycle 
-
-- initContainers:
-- licecycle: postStart: :l/r-probes: :preStop
-
-$ watch n1 kubectl get pods
-
-### Multi-container PODs
-
-- sidecar
-- adapter
-- ambassador
-
 ### Logs
 
 $ kubectl logs deployment/my-apache --follow --tail 1 --> follow logs, just last line
 $ kubectl logs -l run=my-apache --> showing labeled objects logs
 
-### Deployments
-
-- Replica Set is next-gen ReplicationController
-- Deployment declaration in Kube allows you to do app deployments and updates
-- When using Deployment, you define the state of your app (kube will match desired state)
-
-- Create a Deployment
-- Update a Deployment
-- Do rolling update (zero downtime)
-- Roll Back to a prev version
-- Pause/Resume a deployment (roll-out to only a certain percentage)
-
-### Create a deployment and scale to 3 replicas
+### Create a Deployment and Scale to 3 Replicas
 
 $ kubectl create deployment webapp --image=kodekloud/webapp-color
 $ kubectl create deployment httpenv --image=bretfisher/httpenv
@@ -198,21 +138,6 @@ $ kubectl rollout history <>
 $ kubectl rollout undo <> --> rollout to prev version
 $ kubectl rollout undo <> --to-revision=n --> rollout to any prev version
 
-### Services
-
-- when using Deployments, when updaing the image version, pods are terminated and new pods take the place of older pods 
-- that's why Pods hould never be accesssed directly, but always throught a Service
-- a Service is a logical bridge between the `mortal` pods and other services or end-users
-
-### Service Type
-
-- ClusterIP (default) --> reachable inside the cluster only
-- NodePort --> outside the cluster, through IPs on the nodes themselves
-- LoadBalancer (cloud)
-- ExternalName --> adds CNAME DNS record to CoreDNS only
-
-- Ingress
-
 ### Create a Service to expose <APPLICATION>
 
 $ kubectl expose pod redis --port=6379 --name redis-service
@@ -224,40 +149,6 @@ $ kubectl expose deployment/httpenv --port 8888 --name httpenv-lb --type LoadBal
 $ kubectl describe src <service>
 $ kubectl describe svc dashboard-metrics-scraper -n kube-system
 $ kubectl get src
-
-### Service Discovery (advanced) with DNS
-
-- /etc/kubernetes/addons - on master node 
-- to make DNS work, a pod will need a Service definition
-
-$ host app1-service.default.svc.cluster.local
-
-### Kube DNS
-
-<hostname>.<namespace>.svc.cluster.local
-web-service.apps.svc.cluster.local
-
-10.107.37.188 --> IP
-cluster.local --> Root
-svc --> Type
-apps --> Namespace
-web-service --> Hostname
-
-### External DNS
-
-- for every hostname in ingress; it will create a new record to send traffic to your loadbalancer
-
-### Volumes/Storage
-
-- volumes within pod-definition
-- persistent volumes (PVs)
-
-- stateless 
-- statefull
-
-- NFS
-- Cephfs
-- auto provisioned volumes
 
 ### Labels
 
@@ -293,28 +184,6 @@ $ kubectl label node <nodeID> env=dev
 - weight measured 
 
 - measured in `weight` 
-
-### Interpod Affinity and Anti-Affinity
-
-- good for co-located pods
-- e.g. redis pods running on the same node as app1 pod
-
-- topology domain
-- topologyKey
-
-- (take some computing power in +100 nodes cluster)
-
-
-### Healthchecks
-
-- run a command in a container periodically
-- livenessProbes
-- periodic checks on a URL (HTTP)
-
-### readinessProbes
-
-- livenessProbes indicate whether the container is running --> if the check fails, the container will be restarted
-- readinessProbes indicate whether the container is ready to serve requests --> if the check fails, the container will not be restarted, but the Pod's IP address will be removed from the Service, so it'll not serve any requests anymore
 
 ### Secrets
 
@@ -399,66 +268,9 @@ $ kubectl config view
 $ kubectl config view
 $ kubectl config set-context --cluster=*.* --user edward
 $ kubectl config use-context edward
-$ kubectl config get contexts 
-
-### Ingress 
-
-- inbound connection to the cluster
-- IngressController
-
-### External DNS
-
-- On Cloud, use 1 LoadBalancer that captures all the external traffic and
-- sends it to a ingress controller
-
-### Networking
-
-- CNI (Calico, Weave)
-- an overlay network (flannel)
-
-### Node Maintenance
-
-- Node Controller --> assigns IP space, node list, health of the node
-
-### TLS on AWS ELB
-
- - annotations
-
-### Admission Controllers
-
-- intercept requests setn to kubernetes API server
-
-$ kube-apiserver --enable-admission-plugins=NamespaceLifecycle,...
-
-- NamespaceLifecycle
-- LimitRanger
-- ServiceAccount
-- DefaultStorageClass
-- DefaultTolerationSeconds
-- NodeRestriction
-- MutatingAdmissionWebhook
-- ValidatingAdmissionWebhook
-
-### Pod Security Policies
-
-- deny using privileged mode in pods
-- control what volumes can be mounted
-- containers can't run as root but within <UID/GID> range
-
-$ kubectl edit cluster
-$ kubectl get podsecuritypolicy
-
-### etcd
-
-- used by kubernetes as data backend
-- k/v store
-
-### Raft consensus algorithm
-
-https://raft.github.io
+$ kubectl config get contexts
 
 ### Packaging and Deploying
-
 ### Helm
 
 - package manager for kubernetes
