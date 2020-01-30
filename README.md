@@ -24,7 +24,7 @@ $ kubectl port-forward <pod> 8080:<podport> --> port forward the exposed pod por
 $ kubectl attach <podname> -i --> attach to the pod
 
 $ kubectl label pods <pod> mylabel=awesome --> add a new label to a pod
-$ kubectl run -i --tty busybox --image=busybox --restart=Never -- sh run a shell in a pod - very useful for debugging
+$ kubectl run -i --rm --tty busybox --image=busybox --restart=Never -- sh run a shell in a pod - very useful for debugging
 
 ### Run a Pod
 
