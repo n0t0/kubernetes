@@ -4,6 +4,10 @@ $ kubectl get all
 $ kubectl api-resources
 $ kubectl api-versions
 
+### Export to YAML
+
+$ kubectl get all --export=true -o yaml
+
 ### YAML spec
 
 $ kubectl explain services --recursive
