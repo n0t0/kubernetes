@@ -260,19 +260,7 @@ $ kubectl describe daemonset kube-proxy --namespace=kube-system
 
 $ kubectl config view
 
-### RBAC - role based access control
 
-- webhook --> sends autorhozation request to an exnternal REST interface
-
-- role
-- roleBinding
-- clusterRole
-- clusterRoleBinding
-
-$ kubectl config view
-$ kubectl config set-context --cluster=*.* --user edward
-$ kubectl config use-context edward
-$ kubectl config get contexts
 
 ### Packaging and Deploying
 ### Helm
