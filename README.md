@@ -279,14 +279,21 @@ $ helm upgrade
 $ helm rollback
 ```
 
-### Helm Charts
-
 - helm allows for upgrades and rollbacks
 - helm charts are version controlled
 
+### Create Helm Charts
+
 ```
-$ helm create *mychart* --> creates a directory /mychart
+$ helm create <mychart> --> creates a directory /mychart
 ```
+
+- Chart.yaml
+- values.yaml
+- templates/ --> deployment.yaml, service,yaml
+
+:split _helpers.tpl
+
 
 ### Helm Chart repository using AWS S3
 
