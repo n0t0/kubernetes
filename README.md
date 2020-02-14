@@ -262,67 +262,7 @@ $ kubectl config view
 
 
 
-### Packaging and Deploying
-### Helm
 
-- package manager for kubernetes
-- a chart is a collection of files that describe a set of kubernetes resources
-- charts use templates that are typicaly developed by a package maintainer
-
-```
-$ helm init 
-$ helm reset
-$ helm install
-$ heml search --> search for a chart
-$ helm list
-$ helm upgrade 
-$ helm rollback
-```
-
-- helm allows for upgrades and rollbacks
-- helm charts are version controlled
-
-### Create Helm Charts
-
-```
-$ helm create <mychart> --> creates a directory /mychart
-```
-
-- Chart.yaml
-- values.yaml
-- templates/ --> deployment.yaml, service,yaml
-
-:split _helpers.tpl
-
-
-### Helm Chart repository using AWS S3
-
-- create a .sh script
-
-### Building and Deploying a Helm Chart with Jenkins
-
-- aws roles to read from s3 and deploy to cluster
-- serviceAcccount
-- build pipeline script
-- deploy pipeline sciprt
-
-### Skaffold
-
-- command line tool for continuous development of applications running on kubernetes
-- skaffold will build, push, and deploying to kubernetes cluster
-- very pluggable - builds with Kaniko and Bazel or custom builds
-- for developeres and me
-
-### Serverless in Kubernetes
-
-- OpenFaas
-- Kubeless**
-    - HTML functions
-    - Scheduled
-    - PubSub (kafka)
-    - AWS Kinesis
-- Fission
-- OpenWhisk
 
 ### Taints - Node
 
