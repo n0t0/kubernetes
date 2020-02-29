@@ -21,7 +21,7 @@ $ kubectl explain deployment.spec.template.spec.volumes.nfs.server
 
 $ kubectl create -f <pod-definition.yaml>
 
-$ kubecl get pod --> info all running pods
+$ kubectl get pod --> info all running pods
 $ kubectl describe pod <pod> --> describe
 $ kubectl expose pod <pod> --port=444 --name=gaylord --> expose the port of a pod (creates a new service)
 $ kubectl port-forward <pod> 8080:<podport> --> port forward the exposed pod port to your local machine
@@ -260,18 +260,6 @@ $ kubectl describe daemonset kube-proxy --namespace=kube-system
 
 $ kubectl config view
 
-
-
-
-
-### Taints - Node
-
-$ kubectl taint nodes node-name key=value:<taint-effect>
-$ kubectl taint nodes Node1 key=blue:NoSchedule
-kubectl taint nodes master node-role.kubernetes.io/master:NoSchedule- --> remove taints
-
-$ kubectl get nodes
-$ kubectl get <masterNode> -o yaml --> /taint
 
 ### Operators***
 
