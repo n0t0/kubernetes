@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: glusterfs
+  labels:
+    glusterfs: daemonset
+  annotations:
+    description: GlusterFS DaemonSet
+    tags: glusterfs
+spec:
+  selector:
+    matchLabels:
+      glusterfs: pod
+  template:
+    metadata:
+      name: glusterfs
+      labels:
+        glusterfs: pod
+        glusterfs-node: pod
+    spec:
+      nodeSelector:
+        storagenode: glusterfs
+      containers:
+        - name: gluster
+          image: gluster/gluster-centos
+          livenessProbe:
+            exec:
+              command:
+                - "/bin/bash"
+                - "-c"
+                - systemctl status glusterd.service
+          readinessProbe:
+            exec:
+              command:
+                - "/bin/bash"
+                - "-c"
+                - systemctl status glusterd.service
+          securityContext:
+            privileged: true

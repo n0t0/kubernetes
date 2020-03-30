@@ -1,0 +1,52 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: slow
+provisioner: kubernetes.io/glusterfs
+parameters:
+  resturl: "http://127.0.0.1:8081"
+  clusterid: "630372ccdc720a92c681fb928f27b53f"
+  restauthenabled: "true"
+  restuser: "admin"
+  secretNamespace: "default"
+  secretName: "heketi-secret"
+  gidMin: "40000"
+  gidMax: "50000"
+  volumetype: "replicate:3"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  creationTimestamp: "2020-02-13T21:49:26Z"
+  name: glusterfs-storage
+  # resourceVersion: "26684"
+  # selfLink: /apis/storage.k8s.io/v1/storageclasses/glusterfs-storage
+  # uid: b40f27ef-4eaa-11ea-a72e-005056abd1b6
+parameters:
+resturl: http://heketi-storage.app-storage.svc:8080
+restuser: admin
+secretName: heketi-storage-admin-secret
+secretNamespace: app-storage
+provisioner: kubernetes.io/glusterfs
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  creationTimestamp: "2020-02-14T20:51:17Z"
+  name: glusterfs-storage-block
+  # resourceVersion: "345006"
+  # selfLink: /apis/storage.k8s.io/v1/storageclasses/glusterfs-storage-block
+  # uid: bee4f2a8-4f6b-11ea-9cfb-005056abd1b6
+parameters:
+  chapauthenabled: "false"
+  hacount: "3"
+  restsecretname: heketi-storage-admin-secret-block
+  restsecretnamespace: app-storage
+  resturl: http://heketi-storage.app-storage.svc:8080
+  restuser: admin
+provisioner: gluster.org/glusterblock-app-storage
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
