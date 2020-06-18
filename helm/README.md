@@ -18,7 +18,7 @@ $ helm show values <chart>
 ### Install a Chart
 
 $ helm install stable/mysql --generate-name --> will generate random name
-$  helm upgrade --install <release name> --values <values file> <chart directory> --> install-or-upgrade
+$ helm upgrade --install <release name> --values <values file> <chart directory> --> install-or-upgrade
 
 ### Releases
 
@@ -59,6 +59,8 @@ $ helm create <name>
 $ helm package test_chart
 $ helm install test_chart ./test_chart-0.1.0.tgz
 
+$ helm dependency update
+$ helm dep up foochart
 
 
 
