@@ -1,0 +1,17 @@
+dependencies:
+  - name: notificaion
+    version: 1.2.3
+    repository: https://example.com/charts
+  - name: supervisor
+    version: 3.2.1
+    repository: https://another.example.com/charts
+    repository: "@supervisor-charts-repo"
+# ALIASES
+  - name: subchart
+    repository: http://localhost:10191
+    version: 0.1.0
+    alias: new-subchart-1
+  - name: subchart
+    repository: http://localhost:10191
+    version: 0.1.0
+    alias: new-subchart-2
