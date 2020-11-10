@@ -2,11 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: myservice
-...
-spec: 
-  type: <type> #ClusterIP (default), NodePort, LoadBalancer, or ExternalName
+spec:
+  type: ClusterIP #ClusterIP (default), NodePort, LoadBalancer, or ExternalName
   ports:
-  - name: myserviceport1
-    port: 8080
-    targetPort: 8080
-    protocol: TCP
+    - name: myserviceport1
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
