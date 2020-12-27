@@ -14,10 +14,10 @@ spec:
           image: docker.ambrygen.com/bstr/spliceai-api/api
           # command: ["python", "app.py"]
           ports:
-          - name: app-port
-            containerPort: 8000
+            - name: app-port
+              # containerPort: 8000
           env:
-            # Secrets Example 
+            # Secrets Example
             - name: MYSQL_HOST
               value: database-service
             - name: MYSQL_USER
@@ -32,7 +32,7 @@ spec:
                 secretKeyRef:
                   name: db-secrets
                   key: database
-            # ConfigMap Example      
+            # ConfigMap Example
             - name: DRIVER
               valueFrom:
                 configMapKeyRef:
