@@ -1,7 +1,7 @@
 ### Envoy
 
 - when you break up a monotlith application (1 codebase) into micro-services (multiple codebases) you end up with lots of services that need to be able to communicate with each other
-- these communications between services need to be fast, reliable, and flexible 
+- these communications between services need to be fast, reliable, and flexible
 - to implement this you need service mesh
 - a service mesh is an infrastructure layer for handling these service-to-service communications
 - this is usually implemented using proxies
@@ -26,7 +26,7 @@
 - integrates with Consul and Zookeeper
 - envoy supports hot reloading using an API, linkerd does not (by desing)
 
-### Istio 
+### Istio
 
 - is an open platform to connect, manage, and secure microservices
 - istio uses envoy proxy in its data plane
