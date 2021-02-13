@@ -75,13 +75,13 @@ $ kubectl exec <pod> -i -t /bin/bash
 ### Scaling Pods
 
 - stateless
-- statefull 
+- statefull
 
 $ kubectl delete pod helloworld-controller-mw85
 
 - ReplicationController is recreating a new Pod
 
-$ kubectl scale --replicas=4 -f helloworld-replica-controller.yaml 
+$ kubectl scale --replicas=4 -f helloworld-replica-controller.yaml
 $ kubectl get rc
 $ kubectl scale --replicas=1 rc/<replicationController>
 
